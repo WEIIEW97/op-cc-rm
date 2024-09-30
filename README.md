@@ -1,1 +1,1 @@
-This is the repository for customized convolved kernel patched connected components, for removing noise/wrong points and outliers in depth maps.
+This repository contains custom convolved kernel patches for connected components, designed to eliminate noise, incorrect points, and outliers in depth maps.

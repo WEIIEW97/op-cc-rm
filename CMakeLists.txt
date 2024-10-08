@@ -1,0 +1,32 @@
+cmake_minimum_required(VERSION 3.10)
+
+project(op-kernel-cc-rm)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+file(GLOB_RECURSE sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE headers ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
+
+find_package(Eigen3 REQUIRED)
+find_package(OpenCV REQUIRED)
+
+add_executable(
+    ${PROJECT_NAME}
+    ${sources}
+    main.cpp
+)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PRIVATE
+    ${EIGEN3_INCLUDE_DIR}
+    ${OpenCV_INCLUDE_DIRS}
+)
+
+target_link_libraries(
+        ${PROJECT_NAME}
+        ${OpenCV_LIBS}
+)
+

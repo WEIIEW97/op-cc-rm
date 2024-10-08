@@ -1,4 +1,9 @@
 *.ipynb
 build
 out
+.vs
+.idea
+.vscode
+.cache
+
 

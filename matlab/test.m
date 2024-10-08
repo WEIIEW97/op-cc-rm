@@ -13,15 +13,9 @@ imshow(m, [0, 50]);
 colormap parula;
 colorbar;
 
-% mp = op_kernel_cc_4n_rm(m, 5, 2.5);
-% figure;
-% imshow(mp, [0, 50]);
-% colormap parula;
-% colorbar;
-
-mp2 = op_kernel_cc_4n_rm_vec(m, 5, 2.5);
+mp = op_kernel_cc_4n_rm(m, 5, 2.5);
 figure;
-imshow(mp2, [0, 50]);
+imshow(mp, [0, 50]);
 colormap parula;
 colorbar;
 

@@ -11,13 +11,9 @@ def op_cc_4n_thr_removal_v2(m, radius, thr):
         for j in range(w):
             patch = padded_m[i : i + 2 * radius + 1, j : j + 2 * radius + 1]
             # Create a mask for connected components
-
             mask = np.abs(patch - patch[radius, radius]) < thr
-
             # Label connected components
-
             labeled, n_labels = label(mask)
-
             for label_id in range(1, n_labels + 1):
                 region = labeled == label_id
                 if (

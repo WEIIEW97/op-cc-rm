@@ -93,9 +93,7 @@ op_cc_4n_thr_removal(const Eigen::Matrix<Derived, -1, -1> &m, int radius,
       auto patch = MP.block(i, j, i + 2 * radius + 1, j + 2 * radius + 1);
       Eigen::Matrix<bool, -1, -1> visited(patch.rows(), patch.cols());
       visited.setZero();
-      Eigen::Matrix<Derived, -1, -1> c_patch =
-          Eigen::Matrix<Derived, -1, -1>::Constant(patch.rows(), patch.cols(),
-                                                   patch(radius, radius));
+      Eigen::Matrix<Derived, -1, -1> c_patch = Eigen::Matrix<Derived, -1, -1>::Constant(patch.rows(), patch.cols(), patch(radius, radius));
       auto mask = (Eigen::abs(patch - c_patch).array() < thr).matrix();
       for (int r = 0; r < patch.rows(); ++r) {
         for (int c = 0; c < patch.cols(); ++c) {
@@ -115,5 +113,5 @@ op_cc_4n_thr_removal(const Eigen::Matrix<Derived, -1, -1> &m, int radius,
     }
   }
 
-  return MP.block(radius, radius, h + radius, w + radius);
+  return MP.block(radius, radius, h, w);
 }

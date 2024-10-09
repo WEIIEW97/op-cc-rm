@@ -34,7 +34,7 @@ const vector<vector<int>> Direction::four = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 // Pad a matrix in edge replicate mode
 template <typename Derived>
 Matrix<Derived, Dynamic, Dynamic>
-pad(const Matrix<Derived, Dynamic, Dynamic> &M, int pad_width) {
+pad(const Matrix<Derived, Dynamic, Dynamic>& M, int pad_width) {
   Matrix<Derived, Dynamic, Dynamic> MP(M.rows() + 2 * pad_width,
                                        M.cols() + 2 * pad_width);
   int H = M.rows(), W = M.cols(), HP = MP.rows(), WP = MP.cols();
@@ -49,9 +49,9 @@ pad(const Matrix<Derived, Dynamic, Dynamic> &M, int pad_width) {
 }
 
 template <typename Derived>
-void dfs(int x, int y, vector<Vector2i> &component,
-         Matrix<bool, Dynamic, Dynamic> &visited,
-         const MatrixBase<Derived> &patch, int radius, float thr) {
+void dfs(int x, int y, vector<Vector2i>& component,
+         Matrix<bool, Dynamic, Dynamic>& visited,
+         const MatrixBase<Derived>& patch, int radius, float thr) {
   stack<Vector2i> stack;
   stack.emplace(x, y);
   while (!stack.empty()) {
@@ -61,7 +61,7 @@ void dfs(int x, int y, vector<Vector2i> &component,
     if (!visited(cx, cy)) {
       visited(cx, cy) = true;
       component.emplace_back(cx, cy);
-      for (const auto &dir : Direction::four) {
+      for (const auto& dir : Direction::four) {
         int nx = cx + dir[0], ny = cy + dir[1];
         if (nx >= 0 && nx < patch.rows() && ny >= 0 && ny < patch.cols()) {
           if (!visited(nx, ny) &&
@@ -73,9 +73,9 @@ void dfs(int x, int y, vector<Vector2i> &component,
   }
 }
 
-bool check_closed(const vector<Vector2i> &components, int x_bound,
+bool check_closed(const vector<Vector2i>& components, int x_bound,
                   int y_bound) {
-  for (const auto &coord : components) {
+  for (const auto& coord : components) {
     if (coord[0] == 0 || coord[0] == x_bound - 1 || coord[1] == 0 ||
         coord[1] == y_bound - 1)
       return false;
@@ -85,7 +85,7 @@ bool check_closed(const vector<Vector2i> &components, int x_bound,
 
 template <typename Derived>
 Matrix<Derived, Dynamic, Dynamic>
-op_cc_4n_thr_removal(const Matrix<Derived, Dynamic, Dynamic> &m, int radius,
+op_cc_4n_thr_removal(const Matrix<Derived, Dynamic, Dynamic>& m, int radius,
                      float thr) {
   auto MP = pad(m, radius);
   int h = m.rows(), w = m.cols();
@@ -104,7 +104,7 @@ op_cc_4n_thr_removal(const Matrix<Derived, Dynamic, Dynamic> &m, int radius,
             vector<Vector2i> component;
             dfs(r, c, component, visited, patch, radius, thr);
             if (check_closed(component, patch.rows(), patch.cols())) {
-              for (const auto &coord : component) {
+              for (const auto& coord : component) {
                 patch(coord[0], coord[1]) = 0;
               }
             }
@@ -135,21 +135,21 @@ int main() {
   Eigen::MatrixXf mp;
   mp = op_cc_4n_thr_removal(m, radius, thr);
 
-  cv::Mat mp_cv;
-  cv::eigen2cv(mp, mp_cv);
-  cv::normalize(mp_cv, mp_cv, 0, 1, cv::NORM_MINMAX);
-  cv::Mat mp_cv_8u;
-  mp_cv.convertTo(mp_cv_8u, CV_8UC1, 255.0);
-  cv::Mat mp_cv_color;
-  cv::applyColorMap(mp_cv_8u, mp_cv_color, cv::COLORMAP_MAGMA);
+  //cv::Mat mp_cv;
+  //cv::eigen2cv(mp, mp_cv);
+  //cv::normalize(mp_cv, mp_cv, 0, 1, cv::NORM_MINMAX);
+  //cv::Mat mp_cv_8u;
+  //mp_cv.convertTo(mp_cv_8u, CV_8UC1, 255.0);
+  //cv::Mat mp_cv_color;
+  //cv::applyColorMap(mp_cv_8u, mp_cv_color, cv::COLORMAP_MAGMA);
 
-  cv::namedWindow("before Image", cv::WINDOW_AUTOSIZE);
-  cv::namedWindow("after Image", cv::WINDOW_AUTOSIZE);
+  //cv::namedWindow("before Image", cv::WINDOW_AUTOSIZE);
+  //cv::namedWindow("after Image", cv::WINDOW_AUTOSIZE);
 
-  // Show the images
-  cv::imshow("before Image", m_cv_color);
-  cv::imshow("after Image", mp_cv_color);
-  cv::waitKey(0);
-  cv::destroyAllWindows();
+  //// Show the images
+  //cv::imshow("before Image", m_cv_color);
+  //cv::imshow("after Image", mp_cv_color);
+  //cv::waitKey(0);
+  //cv::destroyAllWindows();
   return 0;
 }

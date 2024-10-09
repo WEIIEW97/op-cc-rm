@@ -6,4 +6,5 @@ out
 .vscode
 .cache
 
-
+cmake-build-debug
+cmake-build-release
